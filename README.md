@@ -9,13 +9,13 @@ The `.env` file contains different values and by default are set by the develope
 - `IP` - The IP address that will be used by the API.
 - `PORT` - The PORT that will be used by the API (set this to `80` to avoid typing the port alongside the ip).
 - `MONGODBURI` - The URI that will be used to connect to your mongodb atlas server.
-- `SECRETKEY` - The `salt` that will be used for encoding yout `jsonwebtoken` and  **CHANGING THIS IS ONE A MUST** when deploying the application to production for security purposes.
+- `SECRETKEY` - The `salt` that will be used for encoding your `jsonwebtoken` and  **CHANGING THIS IS ONE A MUST** when deploying the application to production for security purposes.
 
 <br>
 
 ## Package installation and starting the server
 This project uses the following npm packages:
-- `express` - packege used for RESTful API framework.
+- `express` - package used for RESTful API framework.
 - `mongoose` - used for connecting to the database.
 - `dotenv` - for easier configuration by accessing the `.env` file.
 
