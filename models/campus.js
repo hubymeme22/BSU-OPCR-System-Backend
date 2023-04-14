@@ -17,12 +17,18 @@ const campus = new Schema({
                 required: true
             },
             opcr: {
-                type: Object,
-                required: true
+                type: [Object],
+                required: false,
+                default: {}
             }
         }],
         required: true
     },
+    scope: {
+        type: [mongoose.Types.ObjectId],
+        ref: 'target_setting',
+        required: true
+    }
 });
 
 module.exports = mongoose.model('campus', campus);
