@@ -11,7 +11,7 @@ assignCampusPmt.post('/campus/:campusName', (req, res) => {
     if (missedParams.length > 0)
         return res.json({ assigned: false, error: `MissedParams=${missedParams}` });
 
-    routeOp.assignCampusTarget(req.params.campusName);
+    routeOp.assignCampusTarget(req.params.campusName, req.body.scope, res);
 });
 
 module.exports = assignCampusPmt;
