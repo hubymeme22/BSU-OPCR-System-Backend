@@ -38,7 +38,7 @@ module.exports.addCampus = async (campusName, departmentName, assignedTo, opcr, 
 };
 
 // retrieves and returns all the list of campuses
-module.exports.getCampuses = async (res) => {
+module.exports.getCampuses = async ( _id, res) => {
     const responseFormat = { campuses: [], error: null };
     try {
         const campusList = await Campus.find();
@@ -49,6 +49,24 @@ module.exports.getCampuses = async (res) => {
         res.json(responseFormat);
     }
 };
+
+module.exports.deleteCampus = async(res) => {
+    const responseFormat = {deleted: false, error: null}
+    try{
+        const deletedCampus = await Campus.findByIdAndDelete(campusId);
+        if (!deletedCampus) {
+            responseFormat.deleted = false;
+        } else {
+            responseFormat.deleted = true;
+            await campus.save();
+            res.json(responseFormat);
+        }
+    }catch (err){
+        responseFormat.error = err;
+        res.json(responseFormat);
+
+    }
+}
 
 // uses the id to edit the contents of the campus/department
 module.exports.editDepartment = async (campusID, departmentName, assignedTo, opcr, res) => {
@@ -78,3 +96,27 @@ module.exports.editDepartment = async (campusID, departmentName, assignedTo, opc
         res.json(responseFormat);
     }
 };
+
+module.exports.deleteDepartment = async( campusName, departmentName, res) => {
+    const responseFormat = {deleted: false, error: null}
+    try{
+        const campus = await Campus.findOne({ campus: campusName });
+        if (!campus) {
+            responseFormat.error = `Campus '${campusName}' not found.`;
+            return res.json(responseFormat);
+        }
+
+        // Filter out the department that needs to be deleted
+        campus.department = campus.department.filter(department => department.name !== departmentName);
+
+        // Save the updated campus
+        await campus.save();
+
+        responseFormat.deleted = true;
+        res.json(responseFormat);
+    }catch (err){
+        responseFormat.error = err;
+        res.json(responseFormat);
+
+    }
+}
