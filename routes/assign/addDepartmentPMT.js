@@ -1,11 +1,11 @@
 /*
     In this route, the assigning of target for department will be done
 */
-const assignCampusPmt = require('express').Router();
+const assignDepartmentPmt = require('express').Router();
 const params = require('../../modules/paramCheck');
 const routeOp = require('../../modules/assignOperations');
 
-assignCampusPmt.post('/department/:campusName/:departmentName', (req, res) => {
+assignDepartmentPmt.post('/:campusName/:departmentName', (req, res) => {
     const missedParams = params.paramCheck(['target'], req.body);
     if (missedParams.length > 0)
         return res.json({ assigned: false, error: `MissedParams=${missedParams}` });
@@ -15,4 +15,4 @@ assignCampusPmt.post('/department/:campusName/:departmentName', (req, res) => {
     routeOp.assignDepartmentTarget(campusName, departmentName, target);
 });
 
-module.exports = assignCampusPmt;
+module.exports = assignDepartmentPmt;

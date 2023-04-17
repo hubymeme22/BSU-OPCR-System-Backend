@@ -14,6 +14,11 @@ const accounts = new Schema({
         type: String,
         required: true
     },
+    access: {
+        type: [String],
+        required: true,
+        enum: ['form', 'review', 'comment']
+    },
     name: {
         first: {
             type: String,

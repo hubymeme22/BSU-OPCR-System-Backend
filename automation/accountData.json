@@ -1,0 +1,40 @@
+[
+    {
+        "username": "officeAdmin1",
+        "email": "officeAdmin1@g.batstate-u.edu.ph",
+        "password": "officeAdmin1password123",
+        "name": {
+            "first": "Poul Isaac",
+            "last": "De Chavez"
+        },
+
+        "access": "r"
+    },
+
+    {
+        "username": "officeAdmin2",
+        "email": "officeAdmin2@g.batstate-u.edu.ph",
+        "password": "officeAdmin2password123",
+        "name": {
+            "first": "Princess Marie",
+            "middle": "D",
+            "last": "Mello"
+        },
+
+        "access": "c"
+    },
+
+    {
+        "username": "officeAdmin3",
+        "email": "officeAdmin3@g.batstate-u.edu.ph",
+        "password": "officeAdmin3password123",
+        "name": {
+            "first": "Hubert",
+            "middle": "F",
+            "last": "Espinola",
+            "extension": "I"
+        },
+
+        "access": "a"
+    }
+]
