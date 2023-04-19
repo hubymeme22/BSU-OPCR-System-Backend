@@ -6,6 +6,7 @@ const registerCommentRoute = require('./accounts/registerComment');
 const registerFormRoute = require('./accounts/registerForm');
 const assignAPI = require('./assign/assignAPI');
 const pmtAPI = require('./pmt/pmtAPI');
+const campusAPI = require('./campus/campusAPI');
 
 // for logging and account manipulation stuffs
 apiRoute.use('/login', loginRoute);
@@ -19,4 +20,5 @@ apiRoute.use('/register', registerCommentRoute);
 apiRoute.use('/pmt', pmtAPI);
 apiRoute.use('/assign', assignAPI);
 
+apiRoute.use('/campus', campusAPI);
 module.exports = apiRoute;
