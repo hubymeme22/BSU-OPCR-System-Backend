@@ -1,7 +1,11 @@
 // POST /api/campus/:campusName
+const perm = require('../../middlewares/cookiePermissionChecker');
 const routeOp = require('../../modules/campusOperations');
 const params = require('../../modules/paramCheck');
 const addCampusRoute = require('express').Router();
+
+addCampusRoute.use(perm.specifiedPermissionCheck(['form']));
+addCampusRoute.use(perm.permissionErrGen({added: false, summary:{}, error: null}));
 
 addCampusRoute.post('/',(req, res) =>{
     let missedParams = params.paramCheck(['campus_name'], req.body);
