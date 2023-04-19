@@ -4,7 +4,7 @@ const params = require('../../modules/paramCheck');
 const addCampusRoute = require('express').Router();
 
 addCampusRoute.post('/',(req, res) =>{
-    let missedParams = params.paramCheck(['campus_name', 'department_name', 'assigned_to' ,'opcr'], req.body);
+    let missedParams = params.paramCheck(['campus_name'], req.body);
     const responseFormat={added: false, summary:{}, error: null};
 
     if(missedParams.length > 0) {
@@ -13,8 +13,7 @@ addCampusRoute.post('/',(req, res) =>{
     }
 
     //still clueless what to do next here.
-
-    routeOp.addCampus(req.body.campus_name, req.body.department_name, req.body.assigned_to, req.body.opcr);
+    routeOp.addCampus(req.body.campus_name, res);
 })
 
 module.exports = addCampusRoute;
