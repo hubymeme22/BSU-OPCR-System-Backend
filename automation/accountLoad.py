@@ -3,12 +3,12 @@ import json
 
 # please configure this for changes
 host = "localhost"
-ip = 5050
+port = 5050
 
 # different routes for different access
 apiRoutes = {
     "r": f"http://{host}:{port}/api/register/",
-    "c": f"http://{host}:{port}/api/register/comment",
+    # "c": f"http://{host}:{port}/api/register/comment",
     "a": f"http://{host}:{port}/api/register/admin",
     "f": f"http://{host}:{port}/api/register/form"
 }

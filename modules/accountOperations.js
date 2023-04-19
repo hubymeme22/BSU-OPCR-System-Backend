@@ -45,7 +45,7 @@ module.exports.register = async (userdetails, res) => {
                 email: email,
                 password: password,
                 name: name,
-                access: ['rating']
+                access: ['review']
             });
 
             await newAccount.save();
@@ -59,7 +59,7 @@ module.exports.register = async (userdetails, res) => {
 
     } catch (err) {
         responseFormat.error = err;
-        responseObject.json(responseFormat);
+        res.json(responseFormat);
     }
 };
 
@@ -92,7 +92,7 @@ module.exports.registerAdminAccount = async (userdetails, res) => {
 
     } catch (err) {
         responseFormat.error = err;
-        responseObject.json(responseFormat);
+        res.json(responseFormat);
     }
 };
 
@@ -125,7 +125,7 @@ module.exports.registerCommentAccount = async (userdetails, res) => {
 
     } catch (err) {
         responseFormat.error = err;
-        responseObject.json(responseFormat);
+        res.json(responseFormat);
     }
 };
 
@@ -158,6 +158,6 @@ module.exports.registerFormAccount = async (userdetails, res) => {
 
     } catch (err) {
         responseFormat.error = err;
-        responseObject.json(responseFormat);
+        res.json(responseFormat);
     }
 };
