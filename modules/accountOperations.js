@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 // for logging in an account
 module.exports.login = async (user, pass, res) => {
-    const responseFormat = {error: false, token: '', isLoggedIn: false};
+    const responseFormat = {error: false, token: '', access: '', isLoggedIn: false};
 
     try {
         // username matching
@@ -15,6 +15,13 @@ module.exports.login = async (user, pass, res) => {
 
         // match the password provided
         if (userdata.password == pass) {
+            // sets a user access for checking on the client sude
+            if (userdata.access.length > 1) responseFormat.access = 'admin';
+            if (userdata.access.length == 1) {
+                if (userdata.access[0] == 'review') responseFormat.access = 'office';
+                if (userdata.access[0] == 'form') responseFormat.access = 'form';
+            }
+
             responseFormat.isLoggedIn = true;
             userdata.password = 'secret';
             responseFormat.token = jwt.sign({userdata}, process.env.SECRETKEY);
