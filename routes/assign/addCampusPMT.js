@@ -7,11 +7,11 @@ const params = require('../../modules/paramCheck');
 const routeOp = require('../../modules/assignOperations');
 
 assignCampusPmt.post('/:campusName', (req, res) => {
-    const missedParams = params.paramCheck(['scope'], req.body);
+    const missedParams = params.paramCheck(['scopeID'], req.body);
     if (missedParams.length > 0)
         return res.json({ assigned: false, error: `MissedParams=${missedParams}` });
 
-    routeOp.assignCampusTarget(req.params.campusName, req.body.scope, res);
+    routeOp.assignCampusTarget(req.params.campusName, req.body.scopeID, res);
 });
 
 module.exports = assignCampusPmt;
