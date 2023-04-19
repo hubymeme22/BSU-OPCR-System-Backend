@@ -8,8 +8,8 @@ const campusAPI = require('express').Router();
 
 campusAPI.use('/', getAllCampusRoute)
 
-campusAPI.use('/add', addCampusRoute)
-campusAPI.use('/delete', deleteCampusRoute)
+campusAPI.use('/addCampus', addCampusRoute)
+campusAPI.use('/deleteCampus', deleteCampusRoute)
 
 // campusAPI.use('/add', addDepartmentRoute)
 // campusAPI.use('/delete', deleteDepartmentRoute)
