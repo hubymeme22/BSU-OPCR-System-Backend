@@ -1,9 +1,9 @@
 const routeOp = require('../../modules/pmtOperations');
-const createPMTRoute = require('express').Router();
+const readPmtRoute = require('express').Router();
 
 // gets all the list of targets
-createPMTRoute.get('/', (req, res) => {
+readPmtRoute.get('/', (req, res) => {
     routeOp.getTargets(res);
 });
 
-module.exports = createPMTRoute;
+module.exports = readPmtRoute;
