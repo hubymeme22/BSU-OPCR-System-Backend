@@ -28,8 +28,8 @@ module.exports.addCampus = async (campusName, res) => {
 };
 
 // retrieves and returns all the list of campuses
-module.exports.getCampuses = async ( _id, res) => {
-    const responseFormat = { campuses: [], error: null };
+module.exports.getCampuses = async (res) => {
+    const responseFormat = { campuses: [], error: null};
     try {
         const campusList = await Campus.find();
         responseFormat.campuses = campusList;
@@ -40,14 +40,16 @@ module.exports.getCampuses = async ( _id, res) => {
     }
 };
 
-module.exports.deleteCampus = async(res) => {
-    const responseFormat = {deleted: false, error: null}
+module.exports.deleteCampus = async(campusID, res) => {
+    const responseFormat = {deleted: false, error: null, updated:[]}
     try{
-        const deletedCampus = await Campus.findByIdAndDelete(campusId);
+        const deletedCampus = await Campus.findByIdAndDelete({ _id: campusID});
         if (!deletedCampus) {
             responseFormat.deleted = false;
+            res.json(responseFormat);
         } else {
             responseFormat.deleted = true;
+            responseFormat.updated = await Campus.find();
             await campus.save();
             res.json(responseFormat);
         }
