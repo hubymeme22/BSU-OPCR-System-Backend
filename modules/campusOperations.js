@@ -1,7 +1,7 @@
 const Campus = require('../models/campus');
 
-// for adding a new campus/department
-module.exports.addCampus = async (campusName, departmentName, assignedTo, opcr, res) => {
+// for adding a new campus
+module.exports.addCampus = async (campusName, res) => {
     const responseFormat = { added: false, summary: {}, error: null };
     try {
         // checks if the campus already exists
@@ -9,7 +9,7 @@ module.exports.addCampus = async (campusName, departmentName, assignedTo, opcr, 
         if (campusCheck == null) {
             const newCampus = new Campus({
                 campus: campusName,
-                department: [{ name: departmentName, assignedTo: assignedTo, opcr: opcr }]
+                department: []   
             });
     
             const savedCampus = await newCampus.save();
@@ -17,20 +17,10 @@ module.exports.addCampus = async (campusName, departmentName, assignedTo, opcr, 
             responseFormat.summary = savedCampus;
             return res.json(responseFormat);
         }
-    
-        // append the new department to the existing campus
-        const departmentCopy = campusCheck.department;
-        const match = departmentCopy.find(item => { item.name == departmentName });
-        if (!match) {
-            campusCheck.department.push({ name: departmentName, assignedTo: assignedTo, opcr: opcr });
-            const newCampusCheck = await campusCheck.save();
-            responseFormat.added = true;
-            responseFormat.summary = newCampusCheck;
-            res.json(responseFormat);
-        } else {
-            responseFormat.error = "Department already exists";
-            res.json(responseFormat);
-        }
+        //checks if campus exist
+        responseFormat.error = "Campus already exist";
+        res.json(responseFormat)
+
     } catch (err) {
         responseFormat.error = err;
         res.json(responseFormat);
