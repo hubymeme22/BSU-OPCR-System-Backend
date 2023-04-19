@@ -85,7 +85,7 @@ module.exports.registerAdminAccount = async (userdetails, res) => {
                 email: email,
                 password: password,
                 name: name,
-                access: ['rating', 'form', 'comment']
+                access: ['review', 'form']
             });
 
             await newAccount.save();
