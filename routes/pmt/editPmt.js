@@ -1,6 +1,11 @@
+const perm = require('../../middlewares/cookiePermissionChecker');
 const { paramCheck } = require('../../modules/paramCheck');
 const routeOp = require('../../modules/pmtOperations');
 const editPmtRoute = require('express').Router();
+
+// set permission checking
+editPmtRoute.use(perm.specifiedPermissionCheck(['form']));
+editPmtRoute.use(perm.permissionErrGen({ edited: false, error: null }));
 
 // edits the contents of a target by the use of its id
 editPmtRoute.post('/:id', (req, res) => {

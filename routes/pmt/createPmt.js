@@ -1,7 +1,13 @@
+const perm = require('../../middlewares/cookiePermissionChecker');
 const routeOp = require('../../modules/pmtOperations');
 const params = require('../../modules/paramCheck');
 const createPMSRoute = require('express').Router();
 
+// set permission checking
+createPMSRoute.use(perm.specifiedPermissionCheck(['form']));
+createPMSRoute.use(perm.permissionErrGen({ added: false, summary: {}, error: null }))
+
+// create a new target pmt
 createPMSRoute.post('/', (req, res) => {
     // initialize missed parameter response
     let missedParams = params.paramCheck(['target', 'key_indicators'], req.body);
