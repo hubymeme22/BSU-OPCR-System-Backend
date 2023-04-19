@@ -8,3 +8,16 @@ module.exports.paramCheck = (params, obj) => {
     });
     return missedParams;
 };
+
+
+// returns the paramters that are not set in array
+// assuming that the elements of array will be object
+module.exports.arrayParamChecker = (params, arr) => {
+    const missedParams = [];
+    arr.forEach(obj => {
+        const missed = module.exports.paramCheck(params, obj);
+        if (missed.length > 0)
+            missedParams.push(missed);
+    });
+    return missedParams;
+};
