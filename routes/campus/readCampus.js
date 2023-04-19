@@ -1,8 +1,8 @@
 const routeOp = require('../../modules/campusOperations');
-const createCampusRoute = require('express').Router();
+const getAllCampusRoute = require('express').Router();
 
-createCampusRoute.get('/', (req, res) =>{
+getAllCampusRoute.get('/', (req, res) =>{
     routeOp.getCampuses(res);
 });
 
-module.exports = createCampusRoute;
+module.exports = getAllCampusRoute;
