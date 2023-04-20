@@ -2,9 +2,9 @@
 This routes are made for logging in and signing up accounts to the server.
 
 ## Routes and Methods
-### Signing up / Register account
+### Signing up / Register **review** account
 - **POST** /api/register
-  - Registers an account provided
+  - Registers a **review** account provided
   - Request body parameters: `username`, `email`, `password`, `name`
   - The `name` parameter is an object that contains the following sub parameters:
     - `first` (required)
@@ -27,6 +27,31 @@ This routes are made for logging in and signing up accounts to the server.
   ```JSON
   { "registered": true, "error": null }
   ```
+
+### Signing up / Register **form** account
+- **POST** /api/register/form
+  - Registers a form account provided
+  - Request body parameters: `username`, `email`, `password`, `name`
+  - The `name` parameter is an object that contains the following sub parameters:
+    - `first` (required)
+    - `middle` (optional)
+    - `last` (required)
+- Format:
+  ```JSON
+  {
+    "username": "HueHueberryFormAccount",
+    "email": "sampleemailformacc@gmail.com",
+    "password": "...",
+    "name": {
+        "first": "Hubert",
+        "middle": "F",
+        "last": "Espinola"
+    }
+  }
+  ```
+- Sample response
+  ```JSON
+  { "registered": true, "error": null }
 
 ### Logging in an account
 - **POST** /api/login
