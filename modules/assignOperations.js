@@ -37,21 +37,13 @@ module.exports.assignDepartmentTarget = async (targetCampus, targetDepartment, t
     const responseFormat = { added: [], assigned: false, error: null };
 
     try {
-        const campusData = await campus.findOne({$and: [{campus: targetCampus}, {department: targetDepartment}]}).populate('target_setting');
-        const departmentIndex = campusData.department.findIndex(department => department.name == targetDepartment);
-
-        // check for existence of campus
-        if (campusData == null) {
-            responseFormat.error = 'CannotFindCampusDepartment';
-            return res.json(responseFormat);
-        }
-
+        const campusData = await campus.findOne({$and: [{campus: targetCampus}, {'department.name': targetDepartment}]}).populate({ path: 'scope', model: 'target_settings' });
+        if (campusData == null) throw 'NonexistentCampusDepartment';
+        
         // check for existence of department in campus
         // (not actually needed, but in case of bugs in schema searching)
-        if (departmentIndex < 0) {
-            responseFormat.error = 'DepartmentNotOnCampus';
-            return res.json(responseFormat);
-        }
+        const departmentIndex = campusData.department.findIndex(department => department.name == targetDepartment);
+        if (departmentIndex < 0) throw 'DepartmentNotOnCampus';
 
         // reset the target of the department
         campusData.department[departmentIndex].opcr = [];
@@ -76,6 +68,8 @@ module.exports.assignDepartmentTarget = async (targetCampus, targetDepartment, t
         res.json(responseFormat);
 
     } catch (err) {
+        console.log(err);
+
         responseFormat.error = err;
         res.json(responseFormat);
     }

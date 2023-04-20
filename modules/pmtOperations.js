@@ -1,3 +1,4 @@
+const Campus = require('../models/campus');
 const TargetSetting = require('../models/targetSetting');
 
 // for adding a new project/target
@@ -56,15 +57,27 @@ module.exports.getTargets = async (res) => {
     }
 };
 
+// retrieves and returns the list of pmt of the campus
+module.exports.getCampusTargets = async (campusName, res) => {
+    const responseFormat = { pmt: [], error: null };
+    try {
+        const pmtList = await Campus.findOne({ campus: campusName }).populate({path: 'scope', model: 'target_settings'});
+        if (pmtList == null) throw 'NonexistentCampus';
+
+        responseFormat.pmt = pmtList.scope ? pmtList.scope : [];
+        res.json(responseFormat);
+    } catch(err) {
+        responseFormat.error = err;
+        res.json(responseFormat);
+    }
+};
+
 // uses the id to edit the contents of the target
 module.exports.editTargets = async (targetID, details, res) => {
     const responseFormat = { edited: false, error: null };
     try {
         const target = await TargetSetting.findOne({ _id: targetID });
-        if (target == null) {
-            responseFormat.error = 'NonexistentID';
-            return res.json(responseFormat);
-        }
+        if (target == null) throw 'NonexistentID';
 
         // overwrite the contents
         target.finalOutput = details.finalOutput;
