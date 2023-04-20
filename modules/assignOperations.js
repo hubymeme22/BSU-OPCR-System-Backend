@@ -1,12 +1,18 @@
 const targetSetting = require('../models/targetSetting');
 const campus = require('../models/campus');
+const ObjectId = require('mongoose').mongo.ObjectId;
 
 // assigns the specific target scopes for the campus
 module.exports.assignCampusTarget = async (targetCampus, targetIDs, res) => {
     const responseFormat = { assigned: false, error: null };
 
     try {
-        const targets = await targetSetting.find({ _id: { $or: targetIDs }}).select('_id');
+        // conversion of ids to objects
+        for (let i = 0; i < targetIDs.length; i++) {
+            targetIDs[i] = new ObjectId(targetIDs[i]);
+        }
+
+        const targets = await targetSetting.find().where('_id').in(targetIDs);
         const campusData = await campus.findOne({ campus: targetCampus });
 
         // assign these targets to the campus
@@ -32,7 +38,7 @@ module.exports.assignDepartmentTarget = async (targetCampus, targetDepartment, t
 
     try {
         const campusData = await campus.findOne({$and: [{campus: targetCampus}, {department: targetDepartment}]}).populate('target_setting');
-        const departmentIndex = campusData.department.findIndex(department => department.name == targetDepartment)
+        const departmentIndex = campusData.department.findIndex(department => department.name == targetDepartment);
 
         // check for existence of campus
         if (campusData == null) {

@@ -39,20 +39,24 @@ module.exports.specifiedPermissionCheck = (permission=[]) => {
             const userdata = derivedInfo.userdata;
 
             // additional checking to avoid bruteforing token for empty permission
-            let allowed = true;
-            if (permission.length <= 0) {
-                allowed = false;
-            } else {
-                // checks if the permission of the user is allowed
-                permission.forEach(perm => {
-                    if (userdata.access.indexOf(perm) < 0) {
-                        return allowed = false;
+            let tokenAllowed = true;
+            for (let i = 0; i < userdata.access.length; i++) {
+                let matched = false;
+                for (let j = 0; j < permission.length; j++) {
+                    if (userdata.access[i] == permission[j]) {
+                        matched = true;
+                        break;
                     }
-                });
+                }
+
+                if (!matched) {
+                    tokenAllowed = false;
+                    break;
+                }
             }
 
-            if (!allowed) {
-                req.allowedDataErr = true;
+            if (!tokenAllowed) {
+                req.allowedDataErr = false;
                 return next();
             }
 
@@ -73,8 +77,7 @@ module.exports.allowPermission = (permission=[]) => {
     const permissionCheck = (req, res, next) => {
         const cookies = req.cookies;
         const missedParams = param.paramCheck(['token'], cookies);
-    
-        // req.allowedData not assigned
+
         if (missedParams.length > 0) {
             req.allowedDataErr = true;
             return next();
@@ -84,13 +87,22 @@ module.exports.allowPermission = (permission=[]) => {
             const derivedInfo = jwt.verify(cookies.token, process.env.SECRETKEY);
             const userdata = derivedInfo.userdata;
 
-            let allowed = false;
-            permission.forEach(perm => {
-                if (userdata.access.indexOf(perm) < 0)
-                    return allowed = true;
-            });
+            let tokenAllowed = false;
+            for (let i = 0; i < userdata.access.length; i++) {
+                // checks if one of the permission matched
+                let matched = false;
+                for (let j = 0; j < permission.length; j++) {
+                    if (userdata.access[i] == permission[j]) {
+                        matched = true;
+                        tokenAllowed = true;
+                        break;
+                    }
 
-            if (!allowed) {
+                    if (matched) break;
+                }
+            }
+
+            if (!tokenAllowed) {
                 req.allowedDataErr = true;
                 return next();
             }
