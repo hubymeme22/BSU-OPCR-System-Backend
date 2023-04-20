@@ -15,6 +15,16 @@ const targetSetting = new Schema({
             successIndicator: {
                 type: String,
                 required: true
+            },
+            rating: {
+                type: Number,
+                required: false,
+                default: 0
+            },
+            remarks: {
+                type: String,
+                required: false,
+                default: ''
             }
         }],
         required: true

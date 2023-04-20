@@ -15,6 +15,8 @@ module.exports.assignCampusTarget = async (targetCampus, targetIDs, res) => {
         const targets = await targetSetting.find().where('_id').in(targetIDs);
         const campusData = await campus.findOne({ campus: targetCampus });
 
+        if (campusData == null) throw 'NonexistentCampus';
+
         // assign these targets to the campus
         targets.forEach(target => {
             // append the id if the id is not yet on the list
@@ -39,7 +41,7 @@ module.exports.assignDepartmentTarget = async (targetCampus, targetDepartment, t
     try {
         const campusData = await campus.findOne({$and: [{campus: targetCampus}, {'department.name': targetDepartment}]}).populate({ path: 'scope', model: 'target_settings' });
         if (campusData == null) throw 'NonexistentCampusDepartment';
-        
+
         // check for existence of department in campus
         // (not actually needed, but in case of bugs in schema searching)
         const departmentIndex = campusData.department.findIndex(department => department.name == targetDepartment);
@@ -49,17 +51,11 @@ module.exports.assignDepartmentTarget = async (targetCampus, targetDepartment, t
         campusData.department[departmentIndex].opcr = [];
         targetIDs.forEach(id => {
             // makes sure that the target is included in scope of the campus
-            const targetObj = campusData.scope.find(item => item._id == id);
-            if (!targetObj) return;
-
-            // add additional parameter for rating performance,
-            // remarks and comments
-            targetObj.rating = 0;
-            targetObj.remarks = '';
-            targetObj.comment = '';
+            const goalCopy = campusData.scope.find(item => item._id == id);
+            if (!goalCopy) return;
 
             // overwrite the targets of of the current department
-            campusData.department[departmentIndex].opcr.push(targetObj);
+            campusData.department[departmentIndex].opcr.push({goalCopy});
             responseFormat.added.push(id);
         });
 
