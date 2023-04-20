@@ -1,7 +1,7 @@
 const Campus = require('../models/campus');
 
-// for adding a new campus
-module.exports.addCampus = async (campusName, res) => {
+// for adding a new campus/department
+module.exports.addCampusWithDepartments = async (campusName, departments, res) => {
     const responseFormat = { added: false, summary: {}, error: null };
     try {
         // checks if the campus already exists
@@ -9,23 +9,22 @@ module.exports.addCampus = async (campusName, res) => {
         if (campusCheck == null) {
             const newCampus = new Campus({
                 campus: campusName,
-                department: []   
+                department: departments
             });
-    
+
             const savedCampus = await newCampus.save();
             responseFormat.added = true;
             responseFormat.summary = savedCampus;
             return res.json(responseFormat);
         }
-        //checks if campus exist
-        responseFormat.error = "Campus already exist";
-        res.json(responseFormat)
 
+        responseFormat.error = "Campus already exist."
+        res.json(responseFormat)
     } catch (err) {
         responseFormat.error = err;
         res.json(responseFormat);
     }
-};
+}
 
 // retrieves and returns all the list of campuses
 module.exports.getCampuses = async (res) => {
