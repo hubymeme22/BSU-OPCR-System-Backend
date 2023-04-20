@@ -11,13 +11,12 @@ assignDepartmentPmt.use(perm.specifiedPermissionCheck(['form']));
 assignDepartmentPmt.use(perm.permissionErrGen({ assigned: false, error: null }));
 
 // assign a goal for a specific department
-assignDepartmentPmt.post('/:campusName/:departmentName', (req, res) => {
-    const missedParams = params.paramCheck(['targetID'], req.body);
+assignDepartmentPmt.post('/', (req, res) => {
+    const missedParams = params.paramCheck(['campusName', 'departmentName', 'targetID'], req.body);
     if (missedParams.length > 0)
         return res.json({ assigned: false, error: `MissedParams=${missedParams}` });
 
-    const { campusName, departmentName } = req.params;
-    const targetID = req.body.targetID;
+    const { targetID, campusName, departmentName } = req.body;
     routeOp.assignDepartmentTarget(campusName, departmentName, targetID);
 });
 
