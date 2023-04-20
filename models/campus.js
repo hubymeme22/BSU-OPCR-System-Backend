@@ -26,7 +26,7 @@ const campus = new Schema({
     },
     scope: {
         type: [mongoose.Types.ObjectId],
-        ref: 'target_setting',
+        ref: 'target_settings',
         required: true
     }
 });

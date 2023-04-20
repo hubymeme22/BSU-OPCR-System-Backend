@@ -17,7 +17,7 @@ assignDepartmentPmt.post('/', (req, res) => {
         return res.json({ assigned: false, error: `MissedParams=${missedParams}` });
 
     const { targetID, campusName, departmentName } = req.body;
-    routeOp.assignDepartmentTarget(campusName, departmentName, targetID);
+    routeOp.assignDepartmentTarget(campusName, departmentName, targetID, res);
 });
 
 module.exports = assignDepartmentPmt;

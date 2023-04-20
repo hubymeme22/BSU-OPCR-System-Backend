@@ -21,4 +21,4 @@ const targetSetting = new Schema({
     },
 });
 
-module.exports = mongoose.model('target_setting', targetSetting);
+module.exports = mongoose.model('target_settings', targetSetting);
