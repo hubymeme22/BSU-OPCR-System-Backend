@@ -10,6 +10,7 @@ This route was made for CRUD operations on targets, key results, and success ind
 ### **Creating a new finalOutput**
 - **POST** /api/pmt/create
   - Creates a new target for the PMT
+  - **Access Permision**: `form`
   - Request body parameters: `target`, `key_indicators`
   - The `key_indicators` is an array of object containing **Key results** and **Success indicator** , named as `key` and `success`.
   - Format:
@@ -50,6 +51,7 @@ This route was made for CRUD operations on targets, key results, and success ind
 
 ### **Reading all the targets**
 - **GET** /api/pmt/
+- **Access Permision**: `form`, `review`
 - Retrieves all the listed target/finalOutput from the database.
 - Example response:
 ```JSON
@@ -82,6 +84,7 @@ This route was made for CRUD operations on targets, key results, and success ind
 
 ### **Editting the current data**
 - **PUT** /api/pmt/update/:id
+- **Access Permision**: `form`
 - The `id` parameter from this link will be the `_id` recieved from the **GET** request above.
 - An example of usage of this request is the ff:
 - HTTP request: `PUT /api/pmt/update/0ae13f2eab12c37ea121ff`
