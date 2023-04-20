@@ -19,10 +19,10 @@ createPMSRoute.post('/', (req, res) => {
     }
 
     // another check for confirming the format of each key_indicators
-    missedParams = ['key_indicators'];
+    missedParams = [];
     req.body.key_indicators.forEach((keySuccess, index) => {
-        if (!keySuccess.key || keySuccess.success)
-            missedParams.push(`${index}(key/success)`);
+        if (!keySuccess.key || !keySuccess.success)
+            missedParams.push(`key_indicator-${index}`);
     });
 
     // send the missed params
